@@ -33,3 +33,14 @@
    - 数据变动：INFO
    - 业务异常：WARN
    - 系统/外部异常：ERROR
+
+## 工具选择：LSP vs 搜索
+1. **按问题类型选工具**
+   - 类型、文档、签名、跳转定义、符号定位 → LSP：`hover` / `goToDefinition` / `workspaceSymbol` / `documentSymbol`
+   - 按内容找文件、列结构、找调用点 → `grep` / `glob`
+2. **各归各位**
+   - 不拿 LSP 当搜索用，也不用 grep 猜类型。
+3. **`findReferences` 限制**
+   - 只在需要精确到宏 / re-export 时使用；查热门符号会返回上千行，改用 grep 搜调用点。
+4. **冷启动**
+   - LSP 启动中请求可能返回空（rust-analyzer 正在索引），空结果先重试一次再下结论。
